@@ -1,26 +1,115 @@
 import React from 'react';
-import logo from './logo.svg';
+
+import {
+  HashRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 import './App.css';
 
-function App() {
+import styled from "styled-components"
+
+const Wrapper = styled.div`
+  border:1px solid red;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+`;
+
+const Main = styled.div`
+  border:1px solid green;
+  flex-grow:1;
+  overflow:auto;
+`;
+
+const Nav = styled.nav`
+  border:1px solid blue;
+  > ul {
+    display:flex;
+    > li {
+      width:33.3%;
+      text-align:center;
+      padding:16px
+    }
+  }
+`
+
+function nav() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <Router>
+      <Wrapper>
+        <Main>
+          <Switch>
+            <Route exact path="/money">
+              <Money />
+            </Route>
+            <Route path="/tags">
+              <Tags />
+            </Route>
+            <Route path="/statistice">
+              <Statistice />
+            </Route>
+
+            <Redirect exact from="/" to="/money" />
+
+            <Route path="*">
+              <NoMatch />
+            </Route>
+          </Switch>
+        </Main>
+        <Nav>
+          <ul>
+            <li>
+              <Link to="/money">钱包</Link>
+            </li>
+            <li>
+              <Link to="/tags">标签</Link>
+            </li>
+            <li>
+              <Link to="/statistice">计算</Link>
+            </li>
+          </ul>
+        </Nav>
+      </Wrapper>
+    </Router>
+  );
+}
+
+function Money() {
+  return (
+    <div>
+      <h2>Home---</h2>
     </div>
   );
 }
 
-export default App;
+function Tags() {
+  return (
+    <div>
+      <h2>Tags---</h2>
+    </div>
+  );
+}
+
+function Statistice() {
+  return (
+    <div>
+      <h2>Statistice---</h2>
+    </div>
+  );
+}
+
+function NoMatch() {
+
+  return (
+    <div>
+      <h3>
+        页面丢失了～
+      </h3>
+    </div>
+  );
+}
+
+export default nav
